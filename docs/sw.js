@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-site-cache-v7';
+const CACHE_NAME = 'my-site-cache-v1';
 const CACHE_NAME_STATIC = 'bit-static';
 const BASE_URL = '/sw-test/'
 const preCache = [
@@ -49,8 +49,8 @@ self.addEventListener('fetch', function (event) {
                 }
                 return fetch(event.request)
                     .then(function (response) {
-                        console.log(event);
-                        if (event.status === '200') {
+                        console.log(response);
+                        if (response.status === '200') {
                             let responseClone = response.clone();
                             caches.open(CACHE_NAME_STATIC)
                                 .then(function (cache) {
