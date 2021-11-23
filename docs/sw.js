@@ -1,5 +1,5 @@
 const CACHE_NAME = 'my-site-cache-v1';
-const BASE_URL = '/sw-test/docs/'
+const BASE_URL = '/sw-test/'
 const preCache = [
     '',
     'index.html',
