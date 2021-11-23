@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-site-cache-v4';
+const CACHE_NAME = 'my-site-cache-v5';
 const CACHE_NAME_STATIC = 'bit-static';
 const BASE_URL = '/sw-test/'
 const preCache = [
@@ -44,6 +44,7 @@ self.addEventListener('fetch', function (event) {
         caches.match(event.request)
             .then(function (response) {
                 // Cache hit - return response
+                console.log(response);
                 if (response) {
                     return response;
                 }
