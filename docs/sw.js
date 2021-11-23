@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-site-cache-v5';
+const CACHE_NAME = 'my-site-cache-v6';
 const CACHE_NAME_STATIC = 'bit-static';
 const BASE_URL = '/sw-test/'
 const preCache = [
@@ -44,21 +44,22 @@ self.addEventListener('fetch', function (event) {
         caches.match(event.request)
             .then(function (response) {
                 // Cache hit - return response
-                console.log(response);
+                console.log(event);
                 if (response) {
                     return response;
                 }
                 return fetch(event.request)
                     .then(function (response) {
                         let responseClone = response.clone();
-                        caches.open(CACHE_NAME_STATIC).then(function (cache) {
-                            cache.put(event.request, responseClone);
-                        });
+                        caches.open(CACHE_NAME_STATIC)
+                            .then(function (cache) {
+                                cache.put(event.request, responseClone);
+                            });
 
                         return response;
                     });;
             })
-            .caceh(function () {
+            .catch(function () {
                 return caches.match('/sw-test/static/blocks-media/zoom-in.svg');
             })
     );
