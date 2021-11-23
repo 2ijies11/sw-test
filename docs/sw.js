@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-site-cache-v6';
+const CACHE_NAME = 'my-site-cache-v7';
 const CACHE_NAME_STATIC = 'bit-static';
 const BASE_URL = '/sw-test/'
 const preCache = [
@@ -44,17 +44,19 @@ self.addEventListener('fetch', function (event) {
         caches.match(event.request)
             .then(function (response) {
                 // Cache hit - return response
-                console.log(event);
                 if (response) {
                     return response;
                 }
                 return fetch(event.request)
                     .then(function (response) {
-                        let responseClone = response.clone();
-                        caches.open(CACHE_NAME_STATIC)
-                            .then(function (cache) {
-                                cache.put(event.request, responseClone);
-                            });
+                        console.log(event);
+                        if (event.status === '200') {
+                            let responseClone = response.clone();
+                            caches.open(CACHE_NAME_STATIC)
+                                .then(function (cache) {
+                                    cache.put(event.request, responseClone);
+                                });
+                        }
 
                         return response;
                     });;
