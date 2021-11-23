@@ -1,10 +1,10 @@
-const CACHE_NAME = 'my-site-cache-v3';
+const CACHE_NAME = 'my-site-cache-v4';
 const CACHE_NAME_STATIC = 'bit-static';
 const BASE_URL = '/sw-test/'
 const preCache = [
     '',
     'index.html',
-    //'lib.min.js',
+    'lib.min.js',
     'chunks/gui.js',
     'script/main.js',
 ];
@@ -16,9 +16,10 @@ self.addEventListener('install', function (event) {
         caches.open(CACHE_NAME)
             .then(function (cache) {
                 return cache.addAll(preCache.map(file => `${BASE_URL}${file}`))
-                    .then(()=> {
-                        console.log('cache lib.min.js');
-                        return cache.add(`${BASE_URL}lib.min.js`);
+                    .then(() => {
+                        console.log('cache dummy.js');
+                        return cache.add(`${BASE_URL}dummy.js`)
+                            .catch(err => console.log('dummy.js failed.'));
                     });
             })
     );
@@ -46,7 +47,18 @@ self.addEventListener('fetch', function (event) {
                 if (response) {
                     return response;
                 }
-                return fetch(event.request);
+                return fetch(event.request)
+                    .then(function (response) {
+                        let responseClone = response.clone();
+                        caches.open(CACHE_NAME_STATIC).then(function (cache) {
+                            cache.put(event.request, responseClone);
+                        });
+
+                        return response;
+                    });;
+            })
+            .caceh(function () {
+                return caches.match('/sw-test/static/blocks-media/zoom-in.svg');
             })
     );
 });
