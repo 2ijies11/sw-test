@@ -50,7 +50,7 @@ self.addEventListener('fetch', function (event) {
                 return fetch(event.request)
                     .then(function (response) {
                         console.log(response);
-                        if (response.status === '200') {
+                        if (response.status === 200) {
                             let responseClone = response.clone();
                             caches.open(CACHE_NAME_STATIC)
                                 .then(function (cache) {
