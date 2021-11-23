@@ -1,8 +1,10 @@
-const CACHE_NAME = 'my-site-cache-v1';
+const CACHE_NAME = 'my-site-cache-v2';
 const BASE_URL = '/sw-test/'
 const preCache = [
     '',
     'index.html',
+    'lib.min.js',
+    'chunks/gui.js',
     'script/main.js',
 ];
 
